@@ -1,0 +1,53 @@
+
+LookAt 0 -100 50 0 750 -500   0 0 1
+#Rotate -5 0 0 1
+
+Camera "perspective" "float fov" [90]
+Film "image"  
+"integer xresolution" [700] "integer yresolution" [700]
+    "string filename" "plane.exr"
+
+# zoom in by feet
+#"integer xresolution" [1500] "integer yresolution" [1500]
+#    "float cropwindow" [ .34 .49  .67 .8 ]
+
+Sampler "sobol" "integer pixelsamples" [512]
+#Sampler "stratified"
+#    "bool jitter" "false"
+#    "integer xsamples" [1]
+#    "integer ysamples" [1]
+
+Integrator "path"
+
+WorldBegin
+
+    AttributeBegin
+        Texture "wavestex" "float" "imagemap" 
+            "string filename" "bumpmaps/anisonoiseTile.exr"
+            "bool trilinear" "true"
+            "float scale" [1.5]
+        Material "mirror" 
+            "texture bumpmap" "wavestex"
+        Translate 0 0 0
+        Shape "trianglemesh" 
+            "point P" [ -1000 -1000 0 1000 -1000 0 1000 1000 0 -1000 1000 0 ]
+            "float uv" [ 0 0 10 0 10 10 0 10 ]
+            "integer indices" [ 0 1 2 2 3 0]
+    AttributeEnd
+
+    AttributeBegin
+        Translate 0 200 50
+        Material "tbmaterial" 
+        Rotate 45 0 1 0
+        Shape "sphere" "float radius" [50]
+    AttributeEnd
+
+    AttributeBegin
+        Rotate 0 0 0 1
+        LightSource "infinite"
+            "rgb L" [ .9 .9 1 ]
+            "integer samples" [1]
+            "string mapname" "envmaps/grid.exr"
+    AttributeEnd
+
+WorldEnd

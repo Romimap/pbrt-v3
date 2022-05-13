@@ -81,6 +81,7 @@
 #include "materials/subsurface.h"
 #include "materials/translucent.h"
 #include "materials/uber.h"
+#include "materials/TBMaterial.h"
 #include "samplers/halton.h"
 #include "samplers/maxmin.h"
 #include "samplers/random.h"
@@ -586,6 +587,8 @@ std::shared_ptr<Material> MakeMaterial(const std::string &name,
         material = CreateKdSubsurfaceMaterial(mp);
     else if (name == "fourier")
         material = CreateFourierMaterial(mp);
+    else if (name == "tbmaterial")
+        material = CreateTBMaterial(mp);
     else {
         Warning("Material \"%s\" unknown. Using \"matte\".", name.c_str());
         material = CreateMatteMaterial(mp);
