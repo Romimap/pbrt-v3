@@ -1,17 +1,18 @@
 
-LookAt 0 -100 50 0 750 -500   0 0 1
+LookAt -200 -200 50 0 0 -50   0 0 1
 #Rotate -5 0 0 1
 
 Camera "perspective" "float fov" [90]
 Film "image"  
-"integer xresolution" [700] "integer yresolution" [700]
+"integer xresolution" [1000] "integer yresolution" [1000]
     "string filename" "plane.exr"
 
 # zoom in by feet
 #"integer xresolution" [1500] "integer yresolution" [1500]
 #    "float cropwindow" [ .34 .49  .67 .8 ]
 
-Sampler "sobol" "integer pixelsamples" [512]
+Sampler "sobol" 
+    "integer pixelsamples" [4]
 #Sampler "stratified"
 #    "bool jitter" "false"
 #    "integer xsamples" [1]
@@ -25,22 +26,34 @@ WorldBegin
         Texture "wavestex" "float" "imagemap" 
             "string filename" "bumpmaps/anisonoiseTile.exr"
             "bool trilinear" "true"
-            "float scale" [1.5]
-        Material "mirror" 
+            "float scale" [2]
+        
+        Texture "B" "color" "imagemap" 
+            "string filename" "bumpmaps/B.png"
+            "bool trilinear" "true"
+            "float scale" [1]
+        Texture "M" "color" "imagemap" 
+            "string filename" "bumpmaps/M.png"
+            "bool trilinear" "true"
+            "float scale" [1]
+
+        Material "tbmaterial" 
             "texture bumpmap" "wavestex"
+            "texture B" "B"
+            "texture M" "M"
         Translate 0 0 0
         Shape "trianglemesh" 
-            "point P" [ -1000 -1000 0 1000 -1000 0 1000 1000 0 -1000 1000 0 ]
-            "float uv" [ 0 0 10 0 10 10 0 10 ]
+            "point P" [ -5000 -5000 0 5000 -5000 0 5000 5000 0 -5000 5000 0 ]
+            "float uv" [ 0 0 50 0 50 50 0 50 ]
             "integer indices" [ 0 1 2 2 3 0]
     AttributeEnd
 
-    AttributeBegin
-        Translate 0 200 50
-        Material "tbmaterial" 
-        Rotate 45 0 1 0
-        Shape "sphere" "float radius" [50]
-    AttributeEnd
+    #AttributeBegin
+    #    Translate 0 0 0
+    #    Material "tbmaterial" 
+    #    #Rotate 45 0 1 0
+    #    Shape "sphere" "float radius" [50]
+    #AttributeEnd
 
     AttributeBegin
         Rotate 0 0 0 1
